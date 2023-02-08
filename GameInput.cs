@@ -7,6 +7,7 @@ using System;
 public class GameInput : MonoBehaviour
 {
     public event EventHandler OnInteractAction;
+    public event EventHandler OnInteractAlternateAction;
     private PlayerInputActions playerInputActions;
 
     void Awake()
@@ -15,6 +16,7 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Interact.performed += Interact_perfomed;
+        playerInputActions.Player.InteractAlternate.performed += InteractAternate_performed;
     }
 
     private void Interact_perfomed(InputAction.CallbackContext context)
@@ -29,5 +31,10 @@ public class GameInput : MonoBehaviour
         inputVector = inputVector.normalized;
 
         return inputVector;
+    }
+
+    private void InteractAternate_performed(InputAction.CallbackContext context)
+    {
+        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
     }
 }
