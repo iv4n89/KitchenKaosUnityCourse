@@ -33,6 +33,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
         Debug.LogError("Base counter interact");
     }
 
+    public virtual void InteractAternate(Player player)
+    {
+        Debug.LogError("BaseCounter.InteractAlternate();");
+    }
+
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;

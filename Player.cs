@@ -50,7 +50,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void GameInput_OnInteractAlternativeAction(object sender, EventArgs e)
     {
-        
+        if (selectedCounter != null)
+        {
+            selectedCounter.InteractAternate(this);
+        }
     }
 
     void Update()
