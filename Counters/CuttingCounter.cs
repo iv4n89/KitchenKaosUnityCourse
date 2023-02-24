@@ -6,6 +6,7 @@ using System;
 
 public class CuttingCounter : BaseRecipesCounter<CuttingRecipeSO>, IHasProgress
 {
+    public static event EventHandler OnAnyCut;
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
     public event EventHandler OnCut;
 
@@ -30,7 +31,18 @@ public class CuttingCounter : BaseRecipesCounter<CuttingRecipeSO>, IHasProgress
         }
         else
         {
-            if (!player.HasKitchenObject())
+            if (player.HasKitchenObject())
+            {
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject1))
+                {
+                    PlateKitchenObject plateKitchenObject = player.GetKitchenObject() as PlateKitchenObject;
+                    if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                    {
+                        GetKitchenObject().DestroySelf();
+                    }
+                }
+            }
+            else
             {
                 this.GetKitchenObject().SetKitchenObjectParent(player);
             }
@@ -43,6 +55,7 @@ public class CuttingCounter : BaseRecipesCounter<CuttingRecipeSO>, IHasProgress
         {
             cuttingProgress++;
             OnCut?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this, EventArgs.Empty);
 
             CuttingRecipeSO cuttingRecipeSO = GetRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
 
