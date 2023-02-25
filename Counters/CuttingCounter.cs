@@ -7,6 +7,12 @@ using System;
 public class CuttingCounter : BaseRecipesCounter<CuttingRecipeSO>, IHasProgress
 {
     public static event EventHandler OnAnyCut;
+
+    new public static void ResetStaticData()
+    {
+        OnAnyCut = null;
+    }
+
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
     public event EventHandler OnCut;
 
