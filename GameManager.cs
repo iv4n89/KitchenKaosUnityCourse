@@ -36,6 +36,12 @@ public class GameManager : MonoBehaviour
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
         DeliveryManager.Instance.OnRecipeSucess += DeliveryManager_OnRecipeSuccess;
+        GameOverUI.OnResetGame += GameOverUI_OnGameReset;
+    }
+
+    private void GameOverUI_OnGameReset(object sender, EventArgs e)
+    {
+        Loader.Load(Loader.Scene.MainMenuScene);
     }
 
     private void DeliveryManager_OnRecipeSuccess(object sender, EventArgs e)
