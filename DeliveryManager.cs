@@ -10,7 +10,7 @@ public class DeliveryManager : MonoBehaviour
     public event EventHandler OnRecipeCompleted;
     public event EventHandler OnRecipeSucess;
     public event EventHandler OnRecipeFailed;
-    
+
     public static DeliveryManager Instance { get; private set; }
     [SerializeField] private RecipeListSO recipeListSO;
     private List<RecipeSO> waitingRecipeSOList;
@@ -28,16 +28,18 @@ public class DeliveryManager : MonoBehaviour
     void Update()
     {
         spawnRecipeTimer -= Time.deltaTime;
-        if (spawnRecipeTimer <= 0) {
+        if (spawnRecipeTimer <= 0)
+        {
             spawnRecipeTimer = spawnRecipeTimerMax;
 
-            if (waitingRecipeSOList.Count >= waitingRecipeMax) return;
+            if (GameManager.Instance.IsGamePlaying() && waitingRecipeSOList.Count < waitingRecipeMax)
+            {
+                RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
+                print(waitingRecipeSO.name);
+                waitingRecipeSOList.Add(waitingRecipeSO);
 
-            RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
-            print(waitingRecipeSO.name);
-            waitingRecipeSOList.Add(waitingRecipeSO);
-
-            OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
